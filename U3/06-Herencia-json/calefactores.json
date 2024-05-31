@@ -1,0 +1,50 @@
+{
+  "__class__": "Lista",
+  "calefactores": [
+    {
+      "__class__": "Calefactor_Electrico",
+      "__atributos__": {
+        "modelo": "Modelo1",
+        "precio_lista": 200,
+        "forma_pago": "contado",
+        "cant_cuotas": 1,
+        "promocion": "Si",
+        "potencia_maxima": "500 watts"
+      }
+    },
+    {
+      "__class__": "Calefactor_Electrico",
+      "__atributos__": {
+        "modelo": "Modelo2",
+        "precio_lista": 250,
+        "forma_pago": "cuotas",
+        "cant_cuotas": 6,
+        "promocion": "No",
+        "potencia_maxima": "750 watts"
+      }
+    },
+    {
+      "__class__": "Calefactor_Gas",
+      "__atributos__": {
+        "modelo": "Modelo3",
+        "precio_lista": 300,
+        "forma_pago": "contado",
+        "cant_cuotas": 1,
+        "promocion": "No",
+        "calorias": "4000kilocalorias/m3"
+      }
+    },
+    {
+      "__class__": "Calefactor_Gas",
+      "__atributos__": {
+        "modelo": "Modelo4",
+        "precio_lista": 350,
+        "forma_pago": "cuotas",
+        "cant_cuotas": 12,
+        "promocion": "Si",
+        "calorias": "4500kilocalorias/m3"
+      }
+    }
+  ]
+}
+

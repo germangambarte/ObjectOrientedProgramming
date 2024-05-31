@@ -8,7 +8,7 @@ class Edificio:
     __nombre_constructora: str
     __cantidad_pisos: int
     __cantidad_deptos: int
-    __deptos = list[Departamento]
+    __deptos: list[Departamento]
 
     def __init__(
         self,

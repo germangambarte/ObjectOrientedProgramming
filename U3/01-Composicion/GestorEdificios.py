@@ -16,7 +16,6 @@ class GestorEdificio:
             lector = csv.reader(archivo, delimiter=";")
             edificio_actual = None
             for fila in lector:
-                # print(fila)
                 if edificio_actual != fila[0]:
                     edificio_actual = fila[0]
                     edificio = Edificio(
@@ -38,7 +37,6 @@ class GestorEdificio:
                         int(fila[6]),
                         float(fila[7]),
                     )
-                    # print(depto.get_propietario())
                     self.__edificios[-1].agregar_depto(depto)
 
     def buscar_edificio_por_nombre(self, nombre: str):

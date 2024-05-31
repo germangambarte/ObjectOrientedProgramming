@@ -1,7 +1,6 @@
 from GestorEdificios import GestorEdificio
 from Menu import Menu
 
-
 if __name__ == "__main__":
     ge = GestorEdificio()
     menu = Menu()
@@ -12,6 +11,7 @@ if __name__ == "__main__":
 
         match opcion:
             case "0":
+                print("Saliendo...")
                 finaliza = True
                 break
             case "1":
