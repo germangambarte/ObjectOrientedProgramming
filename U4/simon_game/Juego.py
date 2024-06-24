@@ -2,23 +2,30 @@ from tkinter import *
 from tkinter import Tk, ttk
 
 from Gestor_Jugadores import Gestor_Jugadores
-from Tablero_2 import Tablero
+from Tablero import Tablero
 
 
-class Juego(Tk):
+class Juego:
+    __ventana: Tk
     __nombre_jugador: StringVar
 
     def __init__(self):
         super().__init__()
+        self.__ventana = Tk()
         self.gj = Gestor_Jugadores()
-        self.title("Py Simon Game")
+        self.gj.cargar_desde_archivo()
+        self.__ventana.title("Py Simon Game")
         self.puntaje = IntVar(value=0)
         self.__nombre_jugador = StringVar(value="")
 
-        Tablero(self, self.actualizar_puntaje, self.guardar_puntaje)
+        Tablero(self.__ventana, self.actualizar_puntaje, self.guardar_puntaje)
         self.crear_menu_barra()
         self.crear_prompt_inicial()
         self.crear_seccion_puntaje()
+
+        self.__ventana.mainloop()
+
+        self.gj.actualizar_archivo()
 
     def crear_menu_barra(self):
         menu_barra = Menu()
@@ -28,18 +35,19 @@ class Juego(Tk):
             label="Ver Puntajes", command=self.mostrar_puntajes, accelerator="Ctrl+p"
         )
 
-        self.bind("<Control-p>", self.mostrar_puntajes)
+        self.__ventana.bind("<Control-p>", self.mostrar_puntajes)
 
-        menu_puntajes.add_command(label="Salir", command=self.destroy)
+        menu_puntajes.add_command(label="Salir", command=self.__ventana.destroy)
 
         menu_barra.add_cascade(menu=menu_puntajes, label="Puntajes")
-        self.config(menu=menu_barra)
+        self.__ventana.config(menu=menu_barra)
 
     def mostrar_puntajes(self, event=None):
+        self.gj.actualizar_archivo()
         self.gj.resetear_lista()
         self.gj.cargar_desde_archivo()
         self.gj.ordenar_lista()
-        ventana = Toplevel(self)
+        ventana = Toplevel(self.__ventana)
         ventana.title("Ver Puntajes")
         contenedor_tabla = ttk.Frame(ventana, padding=(5, 5), relief="groove")
         titulos = ("Nombre", "Fecha", "Hora", "Puntaje")
@@ -60,6 +68,7 @@ class Juego(Tk):
             )
 
         tabla.pack(fill="both", expand=True)
+        contenedor_tabla.grid(row=0, column=0, sticky="nesw")
 
     def crear_prompt_inicial(self):
         self.__dialogo = Toplevel()
@@ -76,12 +85,12 @@ class Juego(Tk):
 
         dialogo_frame.pack()
 
-        self.__dialogo.transient(master=self)
+        self.__dialogo.transient(master=self.__ventana)
         self.__dialogo.grab_set()
-        self.wait_window(self.__dialogo)
+        self.__ventana.wait_window(self.__dialogo)
 
     def crear_seccion_puntaje(self):
-        contenedor_puntaje = ttk.Frame(self, padding=(5, 5), relief="groove")
+        contenedor_puntaje = ttk.Frame(self.__ventana, padding=(5, 5), relief="groove")
 
         Label(contenedor_puntaje, text=self.__nombre_jugador.get()).pack(
             side="left",

@@ -1,4 +1,5 @@
 import random
+import time
 from tkinter import *
 from tkinter import Tk, ttk
 
@@ -6,30 +7,35 @@ from tkinter import Tk, ttk
 class Tablero(ttk.Frame):
     __puntaje: IntVar
 
-    def __init__(self, enviar_puntajes):
-        super().__init__()
-        self.enviar_puntajes = enviar_puntajes
+    def __init__(self, padre, actulizar_puntaje, guardar_puntaje):
+        super().__init__(padre)
+        self.actualizar_puntaje = actulizar_puntaje
+        self.guardar_puntaje = guardar_puntaje
         self.__puntaje = IntVar(value=0)
 
         self.config(padding=(5, 5), relief="flat")
         self.secuencia_maquina = []
         self.secuencia_jugador = []
-        self.config_botones = ["#ff0000", "#00FF00", "#0000FF", "#FFFF00"]
+        self.config_botones = [
+            ("#c0392b", "#641e16", 0, 0),
+            ("#2980b9", "#1b4f72", 0, 1),
+            ("#16a085", "#0b5345", 1, 0),
+            ("#f1c40f", "#7d6608", 1, 1),
+        ]
         self.botones = {}
 
-        for i, color in enumerate(self.config_botones):
+        for bg_activo, bg_inactivo, fila, columna in self.config_botones:
             boton = Canvas(
                 self,
-                bg=color,
+                bg=bg_activo,
                 width=100,
                 height=150,
-                state="disabled",
                 cursor="hand2",
                 relief="raised",
             )
-            boton.bind("<Button-1>", lambda event, c=color: self.manejar_click(c))
-            boton.grid(row=i // 2, column=i % 2, padx=5, pady=5)
-            self.botones[color] = boton
+            boton.bind("<Button-1>", lambda event, c=bg_activo: self.manejar_click(c))
+            boton.grid(row=fila, column=columna, padx=5, pady=5)
+            self.botones[bg_activo] = (boton, bg_inactivo)
         self.grid(row=1, column=0, sticky="nesw")
 
         self.boton_inicio = Button(
@@ -39,6 +45,7 @@ class Tablero(ttk.Frame):
 
     def iniciar_juego(self):
         self.boton_inicio.config(state="disabled")
+        self.deshabilitar_colores()
         self.secuencia_maquina = []
         self.secuencia_jugador = []
         self.__puntaje.set(0)
@@ -46,7 +53,9 @@ class Tablero(ttk.Frame):
 
     def proximo_nivel(self):
         self.secuencia_jugador = []
-        self.secuencia_maquina.append(random.choice(self.config_botones))
+        self.secuencia_maquina.append(
+            random.choice([cb[0] for cb in self.config_botones])
+        )
         self.reproducir_secuencia()
 
     def reproducir_secuencia(self):
@@ -55,44 +64,44 @@ class Tablero(ttk.Frame):
     def parpadear_boton(self, index):
         if index < len(self.secuencia_maquina):
             color = self.secuencia_maquina[index]
-            self.botones[color].config(bg="white")
-            self.after(500, lambda: self.restaurar_color(color))
+            boton, bg_inactivo = self.botones[color]
+            boton.config(bg=color)
+            self.after(500, lambda: boton.config(bg=bg_inactivo))
             self.after(1000, self.parpadear_boton, index + 1)
         else:
             self.habilitar_colores()
 
-    def restaurar_color(self, color):
-        self.botones[color].config(bg=color)
-
     def manejar_click(self, color):
         self.secuencia_jugador.append(color)
+        self.retroalimentacion(color)
         if (
             self.secuencia_jugador
             == self.secuencia_maquina[: len(self.secuencia_jugador)]
         ):
-            # boton_cliqueado = self.botones[color]
-            # boton_cliqueado.config(bg="green")
-            # self.after(500, lambda: boton_cliqueado.config(relief="raised"))
-
             self.__puntaje.set(self.__puntaje.get() + 1)
-            print(self.__puntaje.get())
+            self.actualizar_puntaje(self.__puntaje.get())
+
             if self.secuencia_jugador == self.secuencia_maquina:
-                self.deshabilitar_colores()
+                self.after(100, self.deshabilitar_colores)
                 self.after(1000, self.proximo_nivel)
         else:
             self.terminar_juego()
 
+    def retroalimentacion(self, color):
+        boton, bg_inactivo = self.botones[color]
+        boton.config(bg=bg_inactivo)
+        self.after(100, lambda: boton.config(bg=color))
+
     def habilitar_colores(self):
-        for boton in self.botones.values():
-            color = boton["bg"]
-            boton.bind("<Button-1>", lambda event, c=color: self.manejar_click(c))
+        for bg_activo, (boton, _) in self.botones.items():
+            boton.config(bg=bg_activo)
+            boton.bind("<Button-1>", lambda event, c=bg_activo: self.manejar_click(c))
 
     def deshabilitar_colores(self):
-        for boton in self.botones.values():
+        for boton, bg_inactivo in self.botones.values():
+            boton.config(bg=bg_inactivo)
             boton.unbind("<Button-1>")
 
     def terminar_juego(self):
         self.boton_inicio.config(state="normal")
-        for boton in self.botones.values():
-            boton.config(state="disabled")
-        self.enviar_puntajes(self.__puntaje.get())
+        self.guardar_puntaje()

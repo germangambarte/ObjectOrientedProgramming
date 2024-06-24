@@ -4,6 +4,15 @@
         {
             "__class__": "Jugador",
             "__atributos__": {
+                "nombre": "mica",
+                "fecha": "18/06/2024",
+                "hora": "17:54",
+                "puntaje": 23
+            }
+        },
+        {
+            "__class__": "Jugador",
+            "__atributos__": {
                 "nombre": "german",
                 "fecha": "18/06/2024",
                 "hora": "17:53",
@@ -13,10 +22,10 @@
         {
             "__class__": "Jugador",
             "__atributos__": {
-                "nombre": "mica",
-                "fecha": "18/06/2024",
-                "hora": "17:54",
-                "puntaje": 23
+                "nombre": "gerchu",
+                "fecha": "23/06/2024",
+                "hora": "22:32",
+                "puntaje": 5
             }
         },
         {
