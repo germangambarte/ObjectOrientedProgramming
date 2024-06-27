@@ -23,12 +23,6 @@ class Gestor_Jugadores:
     def cargar_desde_archivo(self):
         diccionario = self.leer_archivo()
         self.decodificar_dicccionario(diccionario)
-        print("---lista inicial---")
-        self.mostrar_lista()
-
-    def mostrar_lista(self):
-        for item in self.__lista:
-            print(item.get_nombre())
 
     def leer_archivo(self):
         diccionario = None
@@ -55,8 +49,6 @@ class Gestor_Jugadores:
             json.dump(diccionario, archivo, indent=4)
 
     def codificar_lista(self):
-        print(f"cantidad de jugadores: {len(self.__lista)}")
-
         return dict(
             __class__=self.__class__.__name__,
             jugadores=[j.tojson() for j in self.__lista],
@@ -70,8 +62,6 @@ class Gestor_Jugadores:
         fecha = hoy.strftime("%d/%m/%Y")
         hora = hoy.strftime("%H:%M")
         self.__lista.append(Jugador(nombre, fecha, hora, puntaje))
-        print("---jugador agregado---")
-        self.mostrar_lista()
 
     def get_lista(self):
         return self.__lista

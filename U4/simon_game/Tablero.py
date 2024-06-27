@@ -1,7 +1,6 @@
 import random
-import time
 from tkinter import *
-from tkinter import Tk, ttk
+from tkinter import ttk
 
 
 class Tablero(ttk.Frame):
