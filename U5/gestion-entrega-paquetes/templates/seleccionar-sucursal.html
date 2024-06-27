@@ -1,11 +1,11 @@
 {% extends "base.html" %} {% block title %}Formulario Despachante{% endblock %}
 {% block content %}
 <h1>Lista de Sucursales</h1>
-<form action="http://localhost:8080/despachante/registrar-paquete" method="POST">
+<form action="/despachante/registrar-paquete" method="GET">
   <select name="sucursal" id="sucursal">
     {%for sucursal in sucursales%}
-    <option value="{{sucursal.codigo}}">
-      {{ sucursal.codigo }} - {{ sucursal.provincia }} - {{ sucursal.localidad
+    <option value="{{sucursal.numero}}">
+      {{ sucursal.numero }} - {{ sucursal.provincia }} - {{ sucursal.localidad
       }}
     </option>
     {%endfor%}
@@ -13,3 +13,4 @@
   <input type="submit" value="Elegir sucursal" />
 </form>
 {% endblock %}
+

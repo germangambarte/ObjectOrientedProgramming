@@ -6,9 +6,15 @@
     <link rel="stylesheet" href="{{ url_for("static", filename="css/estilos.css") }}">
 </head>
 <body>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <ul class="flashes">
+          {% for category, message in messages %}
+            <li class="flash flash-{{ category }}">{{ message }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
     {% block content %}{% endblock %}
-      <div class="myDiv">
-			<a href = "{{ url_for('inicio') }}" > Inicio </a><br><br>
-	  </div>	
 </body>
 </html>
