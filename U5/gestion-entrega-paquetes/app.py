@@ -1,4 +1,4 @@
-from datetime import datetime, timedelta
+from datetime import datetime
 
 from flask import Flask, flash, redirect, render_template, request, session
 
@@ -86,7 +86,7 @@ def registro_salida():
         nuevo_transporte = Transporte(
             numerotransporte=nuevo_numero_transporte,
             fechahorasalida=datetime.now(),
-            fechahorallegada=datetime.now(),
+            fechahorallegada=None,
             idsucursal=id_sucursal,
         )
 
@@ -96,8 +96,9 @@ def registro_salida():
         for id in paquetes:
             paquete = Paquete.query.filter_by(id=id).first()
             if paquete:
-                paquete.idtransporte = nuevo_transporte.id
-                db.session.commit()
+                if paquete.idtransporte == 0:
+                    paquete.idtransporte = nuevo_transporte.id
+                    db.session.commit()
 
         flash("La salida del transporte se registró exitosamente", "success")
         return redirect("/despachante")
