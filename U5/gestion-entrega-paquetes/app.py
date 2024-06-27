@@ -55,6 +55,7 @@ def registrar_paquete():
             entregado=False,
             idrepartidor=0,
             idsucursal=session.get("sucursal"),
+            idtransporte=0,
         )
         db.session.add(nuevo_paquete)
         db.session.commit()
