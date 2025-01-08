@@ -1,0 +1,6 @@
+id,delivery_plate,ordered,estimated_delivery_time,real_delivery_time,order_price
+1001,ABC123,"hamburguesa,papas fritas,refresco",45,50,25.50
+1002,XYZ789,"pizza familiar,alitas de pollo,ensalada",75,72,32.75
+1003,DEF456,"sushi rolls,gyoza,té verde",105,110,18.90
+1004,GHI789,"tacos al pastor,quesadillas,guacamole,agua de horchata",135,130,45.20
+1005,JKL012,"pollo asado,arroz,ensalada césar,limonada",165,170,28.60
