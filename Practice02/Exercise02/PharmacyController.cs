@@ -2,9 +2,15 @@ namespace Exercise02;
 
 public class PharmacyController
 {
-    private decimal[,] Billings = new decimal[BranchsQuantity, DaysQuantity];
+    public decimal[,] Billings { private set; get; }
     private const int DaysQuantity = 7;
     private const int BranchsQuantity = 5;
+
+    public PharmacyController()
+    {
+        Billings = new decimal[BranchsQuantity, DaysQuantity];
+        
+    }
 
     public void AddBilling(int day, int branch, decimal amount)
     {
