@@ -7,7 +7,7 @@ class Heater(ABC):
     __manufacture_country: str
     __list_price: float
     __payment_method: str
-    __installments_number: int
+    __installments_number: int | None
     __in_promotion: bool
 
     def __init__(self,
@@ -16,8 +16,8 @@ class Heater(ABC):
                  manufacture_country: str,
                  list_price: float,
                  payment_method: str,
-                 installments_number: int,
-                 in_promotion: bool
+                 in_promotion: bool,
+                 installments_number: int | None = None,
                  ):
         self.__brand = brand
         self.__model = model

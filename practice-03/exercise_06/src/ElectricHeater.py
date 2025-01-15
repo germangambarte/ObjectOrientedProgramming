@@ -2,7 +2,7 @@ from src.Heater import Heater
 
 
 class ElectricHeater(Heater):
-    __max_power: str
+    __max_power: float
 
     def __init__(self,
                  brand: str,
@@ -10,9 +10,9 @@ class ElectricHeater(Heater):
                  manufacture_country: str,
                  list_price: float,
                  payment_method: str,
-                 installments_number: int,
                  in_promotion: bool,
-                 max_power: str
+                 max_power: float,
+                 installments_number: int | None = None,
                  ):
         super().__init__(
             brand,
@@ -20,8 +20,8 @@ class ElectricHeater(Heater):
             manufacture_country,
             list_price,
             payment_method,
+            in_promotion,
             installments_number,
-            in_promotion
         )
         self.__max_power = max_power
 
@@ -36,3 +36,4 @@ class ElectricHeater(Heater):
 
         if super().get_payment_method() == "installment":
             total += list_price * .30
+        return total

@@ -11,10 +11,10 @@ class GasHeater(Heater):
                  manufacture_country: str,
                  list_price: float,
                  payment_method: str,
-                 installments_number: int,
                  in_promotion: bool,
                  registration: str,
                  calories: int,
+                 installments_number: int | None = None,
                  ):
         super().__init__(
             brand,
@@ -22,8 +22,8 @@ class GasHeater(Heater):
             manufacture_country,
             list_price,
             payment_method,
+            in_promotion,
             installments_number,
-            in_promotion
         )
         self.__registration = registration
         self.__calories = calories
@@ -36,10 +36,11 @@ class GasHeater(Heater):
 
     def calculate_final_cost(self):
         list_price = super().get_list_price()
-        total_price = list_price * 0.15
+        total = list_price * 0.15
 
         if self.get_calories() > 3000:
-            total_price += list_price * 0.01
+            total += list_price * 0.01
 
         if super().get_payment_method() == "installment":
-            total_price += list_price * 0.40
+            total += list_price * 0.40
+        return total
